@@ -1,6 +1,7 @@
 import React from 'react';
 import { auth, provider } from './firebase';
 import { signInWithPopup } from 'firebase/auth';
+import logo from './images/logo.png';
 
 function Login({setIsAuth}) {
 
@@ -17,9 +18,16 @@ function Login({setIsAuth}) {
     }
 
     return (
-        <div classname="login">
-            <p>Sign In WIth Google to Continue</p>
-            <button className="login-with-google-btn" onClick={signInWithGoogle}>Sign In With Google</button>
+        <div className="login">
+            <div>
+                <img className="LogoImage" src={logo}/>
+            </div>
+
+            <div>
+                <text className='Title'>Bruin Locks</text>
+            </div>
+            
+            <button className="login-with-google-btn" onClick={signInWithGoogle}>Sign In with Google</button>
         </div>
     )
 }

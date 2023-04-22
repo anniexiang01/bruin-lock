@@ -1,7 +1,14 @@
-<<<<<<< HEAD
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+To-Do's:
+locker button changes picture when clicked
+associate locker with user
+make log in and locker page pretty
+    ask to unlock if locker is owned by user
+countdown (associated per locker)
+associate one account as admin
 
 ## Available Scripts
 
@@ -69,6 +76,4 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-=======
 # bruin-lock
->>>>>>> refs/remotes/origin/main
