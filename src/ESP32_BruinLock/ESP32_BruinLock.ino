@@ -12,7 +12,17 @@
 //Provide the RTDB payload printing info and other helper functions.
 #include <addons/RTDBHelper.h>
 
+#include <ESP32Servo.h> 
+Servo myservo;  // create servo object to control a servo
+// twelve servo objects can be created on most boards
+
+int pos = 0;    // variable to store the servo position
+
 #define LED1 27
+#define RED_PIN 26
+#define GREEN_PIN 25
+#define BLUE_PIN 33
+#define servoPin 32
 
 /* 1. Define the WiFi credentials */
 #define WIFI_SSID "IEEE"
@@ -40,9 +50,25 @@ int a, b, x, y, status;
 
 
 void setup() {
+  myservo.attach(32);  // attaches the servo on pin 9 to the servo object
+	// Allow allocation of all timers
+	ESP32PWM::allocateTimer(0);
+	ESP32PWM::allocateTimer(1);
+	ESP32PWM::allocateTimer(2);
+	ESP32PWM::allocateTimer(3);
+	myservo.setPeriodHertz(50);    // standard 50 hz servo
+	myservo.attach(servoPin, 1000, 2000); // attaches the servo on pin 18 to the servo object
+	// using default min/max of 1000us and 2000us
+	// different servos may require different min/max settings
+	// for an accurate 0 to 180 sweep
+
   pinMode(LED1, OUTPUT);
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(GREEN_PIN, OUTPUT);
+  pinMode(BLUE_PIN, OUTPUT);
   Serial.begin(115200);
   delay(2000);
+  digitalWrite(LED1, HIGH);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -78,7 +104,6 @@ void setup() {
 
 void loop() {
 
-
   x = random(0, 9);
   y = random(10, 19);
 
@@ -98,9 +123,19 @@ void loop() {
 
     if (status == 1) {
       digitalWrite(LED1, HIGH);
+      digitalWrite(RED_PIN, HIGH);
+      digitalWrite(GREEN_PIN, HIGH);
+      digitalWrite(BLUE_PIN, LOW);
+      pos = 0;
+      myservo.write(pos);              // tell servo to go to position in variable 'pos'
     }
     else {
       digitalWrite(LED1, LOW);
+      digitalWrite(RED_PIN, LOW);
+      digitalWrite(GREEN_PIN, HIGH);
+      digitalWrite(BLUE_PIN, HIGH);
+      pos = 180;
+      myservo.write(pos);              // tell servo to go to position in variable 'pos'
     }
 
     Serial.println();
