@@ -3,10 +3,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 To-Do's:
-locker button changes picture when clicked
 associate locker with user
-make log in and locker page pretty
-    ask to unlock if locker is owned by user
+ask to unlock if locker is owned by user
 countdown (associated per locker)
 associate one account as admin
 

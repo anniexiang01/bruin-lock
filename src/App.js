@@ -5,9 +5,8 @@ import { uid } from "uid";
 import { getDatabase, set, ref, onValue, remove, update } from "firebase/database";
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
+import Locker from "./Locker";
 
-import openLockerImage from './images/open-locker.PNG';
-import closedLockerImage from './images/closed-locker.PNG';
 import logo from './images/logo.png';
 
 function App() {
@@ -20,44 +19,37 @@ function App() {
     });
   };
 
-
   //set status
   const [status, setStatus] = useState(0);
+  const [status2, setStatus2] = useState(0);
   const database = getDatabase();
   const statusRef = ref(database, 'status');
+  const statusRef2 = ref(database, 'status2');
 
+  // Update the value of status in the database
   useEffect(() => {
     onValue(statusRef, (snapshot) => {
       const value = snapshot.val();
       setStatus(value);
     });
   }, [statusRef]);
+
+  useEffect(() => {
+    onValue(statusRef2, (snapshot) => {
+      const value = snapshot.val();
+      setStatus2(value);
+    });
+  }, [statusRef2]);
   
   const handleButtonClick = () => {
     const newStatus = status === 0 ? 1 : 0;
     set(statusRef, newStatus);
   };
 
-  let imageSrc;
-  let lockerClassName;
-  if (status === 0) {
-    imageSrc = closedLockerImage;
-    lockerClassName = 'ClosedLockerImage';
-  } else if (status === 1) {
-    imageSrc = openLockerImage;
-    lockerClassName = 'OpenLockerImage';
-  } else {
-    //buttonText = 'Invalid status';
-  }
-
-  let statusText;
-  if (status === 0) {
-    statusText = "Locked";
-  } else {
-    statusText = "Open";
-  }
-
-  
+  const handleButtonClick2 = () => {
+    const newStatus = status2 === 0 ? 1 : 0;
+    set(statusRef2, newStatus);
+  };
 
   return (
     <>
@@ -75,11 +67,9 @@ function App() {
               <button onClick={signUserOut}>Sign Out</button>
             </div>
           
-            <div>
-              <p>Current status is: {statusText}</p>
-              <button className="LockerButton" onClick={handleButtonClick}>
-                <img className={lockerClassName} src={imageSrc}/>
-              </button>
+            <div style={{ display: 'flex' }}>
+              <Locker handleButtonClick={handleButtonClick} status={status} />
+              <Locker handleButtonClick={handleButtonClick2} status={status2} />
             </div>
           </div>
         </div>
@@ -95,6 +85,5 @@ function App() {
   
 export default App;
   
-
 // npm install firebase
 // npm install sass
