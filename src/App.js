@@ -1,9 +1,10 @@
 import "./App.css";
 import Login from "./Login";
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 import { uid } from "uid";
 import { getDatabase, set, ref, onValue, remove, update } from "firebase/database";
 import { useState, useEffect } from "react";
+import { signOut } from "firebase/auth";
 
 function App() {
   const [isAuth, setIsAuth] = useState(false); // holds if user is logged in
@@ -11,6 +12,13 @@ function App() {
   const [todos, setTodos] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [tempUuid, setTempUuid] = useState("");
+
+  const signUserOut = () => {
+    signOut(auth).then(() => {
+      localStorage.clear()
+      setIsAuth(false);
+    });
+  };
 
   const handleTodoChange = (e) => {
     setTodo(e.target.value);
@@ -92,6 +100,12 @@ function App() {
     <>
       {isAuth ? (
         <div className="App">
+          <div>
+            <button onClick={signUserOut}>Sign Out</button>
+          </div>
+          <div>
+            Welcome back, {auth.currentUser.displayName}!
+          </div>
           <input type="text" value={todo} onChange={handleTodoChange} />
           {isEdit ? (
             <>
