@@ -1,10 +1,12 @@
 import "./App.css";
+import Login from "./Login";
 import { db } from "./firebase";
 import { uid } from "uid";
 import { getDatabase, set, ref, onValue, remove, update } from "firebase/database";
 import { useState, useEffect } from "react";
 
 function App() {
+  const [isAuth, setIsAuth] = useState(false); // holds if user is logged in
   const [todo, setTodo] = useState("");
   const [todos, setTodos] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
@@ -87,39 +89,46 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <input type="text" value={todo} onChange={handleTodoChange} />
-      {isEdit ? (
-        <>
-          <button onClick={handleSubmitChange}>Submit Change</button>
-          <button
-            onClick={() => {
-              setIsEdit(false);
-              setTodo("");
-            }}
-          >
-            X
-          </button>
-        </>
+    <>
+      {isAuth ? (
+        <div className="App">
+          <input type="text" value={todo} onChange={handleTodoChange} />
+          {isEdit ? (
+            <>
+              <button onClick={handleSubmitChange}>Submit Change</button>
+              <button
+                onClick={() => {
+                  setIsEdit(false);
+                  setTodo("");
+                }}
+              >
+                X
+              </button>
+            </>
+          ) : (
+            <button onClick={writeToDatabase}>submit</button>
+          )}
+          <div>
+            <p>Current status is: {status}</p>
+            <button onClick={handleButtonClick}>{buttonText}</button>
+          </div>
+          {todos.map((todo) => (
+            <>
+              <h1>{todo.todo}</h1>
+              <button onClick={() => handleUpdate(todo)}>update</button>
+              <button onClick={() => handleDelete(todo)}>delete</button>
+            </>
+          ))}
+        </div>
       ) : (
-        <button onClick={writeToDatabase}>submit</button>
+        <Login setIsAuth={setIsAuth} />
       )}
-      <div>
-        <p>Current status is: {status}</p>
-        <button onClick={handleButtonClick}>{buttonText}</button>
-      </div>
-      {todos.map((todo) => (
-        <>
-          <h1>{todo.todo}</h1>
-          <button onClick={() => handleUpdate(todo)}>update</button>
-          <button onClick={() => handleDelete(todo)}>delete</button>
-        </>
-      ))}
-    </div>
+    </>
   );
 }
-
+  
 export default App;
+  
 
 // npm install firebase
 // npm install uid
