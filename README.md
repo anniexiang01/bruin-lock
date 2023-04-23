@@ -1,3 +1,5 @@
+# Bruin Lock: An IoT smart locker system
+
 ## Inspiration
 We were inspired by the broken lockers by the dining halls at UCLA and how frustrating it is to not be able to use them in a secure and efficient option. This inspired us to create Bruin Locks, an IoT smart locker system that allows users to reserve and unlock lockers quick and easy.
 
