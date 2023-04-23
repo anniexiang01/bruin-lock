@@ -20,10 +20,10 @@ int minUs = 1000;
 int maxUs = 2000;
 
 
-#define LED1 27
-#define RED_PIN 26
-#define GREEN_PIN 25
-#define BLUE_PIN 33
+#define GREEN_PIN2 26
+#define RED_PIN2 33
+#define GREEN_PIN 27
+#define RED_PIN 25
 int servo1Pin = 32;
 int servo2Pin = 14;
 
@@ -62,13 +62,12 @@ void setup() {
 	servo1.setPeriodHertz(50);      // Standard 50hz servo
 	servo2.setPeriodHertz(50);      // Standard 50hz servo
 
-  pinMode(LED1, OUTPUT);
-  pinMode(RED_PIN, OUTPUT);
   pinMode(GREEN_PIN, OUTPUT);
-  pinMode(BLUE_PIN, OUTPUT);
+  pinMode(RED_PIN, OUTPUT);
+  pinMode(GREEN_PIN2, OUTPUT);
+  pinMode(RED_PIN2, OUTPUT);
   Serial.begin(115200);
   delay(2000);
-  digitalWrite(LED1, HIGH);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to Wi-Fi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -113,8 +112,8 @@ void loop() {
     status2 = fbdo.to<int>();
 
     if (status == 1) {
-      digitalWrite(LED1, HIGH);
-      digitalWrite(RED_PIN, HIGH);
+      digitalWrite(GREEN_PIN, HIGH);
+      digitalWrite(RED_PIN, LOW);
       // servo1.write(0);              // tell servo to go to position in variable 'pos'
       for (; pos <= 180; pos += 1) { // sweep from 0 degrees to 180 degrees
         // in steps of 1 degree
@@ -123,8 +122,8 @@ void loop() {
       }
     }
     else {
-      digitalWrite(LED1, LOW);
-      digitalWrite(RED_PIN, LOW);
+      digitalWrite(GREEN_PIN, LOW);
+      digitalWrite(RED_PIN, HIGH);
       // servo1.write(180);              // tell servo to go to position in variable 'pos'
       for (; pos >= 0; pos -= 1) { // sweep from 180 degrees to 0 degrees
         servo1.write(pos);
@@ -133,8 +132,8 @@ void loop() {
     }
 
     if (status2 == 1) {
-      digitalWrite(LED1, HIGH);
-      digitalWrite(BLUE_PIN, HIGH);
+      digitalWrite(GREEN_PIN2, HIGH);
+      digitalWrite(RED_PIN2, LOW);
       // servo2.write(0);             // tell servo to go to position in variable 'pos'
       for (; pos2 <= 180; pos2 += 1) { // sweep from 0 degrees to 180 degrees
         // in steps of 1 degree
@@ -144,8 +143,8 @@ void loop() {
 
     }
     else {
-      digitalWrite(LED1, LOW);
-      digitalWrite(BLUE_PIN, LOW);
+      digitalWrite(GREEN_PIN2, LOW);
+      digitalWrite(RED_PIN2, HIGH);
       // servo2.write(180);              // tell servo to go to position in variable 'pos'
       for (; pos2 >= 0; pos2 -= 1) { // sweep from 180 degrees to 0 degrees
         servo2.write(pos2);
