@@ -18,7 +18,7 @@ function App() {
     });
   };
 
-  const admin = 'Annie Xiang';
+  const admin = 'Nathan Nguyendinh';
 
   //set status
   const [status, setStatus] = useState(0);
@@ -160,8 +160,12 @@ function App() {
             </div>
           
             <div style={{ display: 'flex'}}>
-              <Locker handleButtonClick={handleButtonClick} status={status} user={locker1User} startTime0={startTime} lockerTimeRef={locker1TimeRef}/>
               <Locker handleButtonClick={handleButtonClick2} status={status2} user={locker2User} startTime0={startTime2} lockerTimeRef={locker2TimeRef}/>
+              <Locker handleButtonClick={handleButtonClick} status={status} user={locker1User} startTime0={startTime} lockerTimeRef={locker1TimeRef}/>
+            </div>
+
+            <div>
+              <text className="credits">art cred: Claire Huang</text>
             </div>
           </div>
         </div>

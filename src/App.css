@@ -7,6 +7,7 @@
   justify-content: center;
   color: white;
   background-image: linear-gradient(59deg, #36b8df, #cf96f3);
+  font-family: 'Nunito', sans-serif;
 }
 
 .login {
@@ -56,6 +57,7 @@ button {
   padding: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
+  margin-top: -10px;
   border-radius: 15px;
   cursor: pointer;
   color: #8587f0;
@@ -94,6 +96,8 @@ button:hover {
   padding: 20px;
   white-space: nowrap;
   margin-top: -15px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
 }
 
 .Title {
@@ -102,14 +106,19 @@ button:hover {
   white-space: nowrap;
   padding-bottom: 50px;
   margin-bottom: 50px;
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600;
 }
 
 text {
-  font-size: 1.5rem;
+  font-size: 3rem;
+  font-family: 'Nunito', sans-serif;
 }
 
 p {
-  margin-top: -8px;
+  margin-top: -13px;
+  font-size: large;
+  font-weight: 600;
 }
 
 .Locker {
@@ -125,6 +134,7 @@ p {
   font-size: 2rem;
   font-weight: bold;
   white-space: nowrap;
+  margin-bottom: -15px;
 }
 
 .clear {
@@ -132,6 +142,7 @@ p {
   font-weight: bold;
   white-space: nowrap;
   color: transparent;
+  margin-bottom: -15px;
 }
 
 .login-with-google-btn {
@@ -145,4 +156,8 @@ p {
   border-radius: 15px;
   cursor: pointer;
   color: #8587f0;
+}
+
+.credits {
+  font-size: x-small;
 }

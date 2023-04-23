@@ -8,7 +8,7 @@ function Timer({startTime, lockerTimeRef}) {
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date().getTime();
-      const timeDiff = startTime ? (startTime.getTime() + 10000) - now : 0;
+      const timeDiff = startTime ? (startTime.getTime() + 32000) - now : 0;
       // const minutes = Math.floor(timeDiff / (60 * 1000));
       // const seconds = timeDiff % (60 * 1000);
       // const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
