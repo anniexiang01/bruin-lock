@@ -1,8 +1,9 @@
 import React from 'react';
 import openLockerImage from './images/open-locker.PNG';
 import closedLockerImage from './images/closed-locker.PNG';
+import Timer from "./Timer";
 
-function Locker({handleButtonClick, status, user}) {
+function Locker({handleButtonClick, status, user, startTime0, lockerTimeRef}) {
 
     let imageSrc;
     let lockerClassName;
@@ -39,6 +40,7 @@ function Locker({handleButtonClick, status, user}) {
             <button className="LockerButton" onClick={handleButtonClick}>
               <img className={lockerClassName} src={imageSrc}/>
             </button>
+            <Timer startTime={startTime0} lockerTimeRef={lockerTimeRef}/>
         </div>
     </div>
     )

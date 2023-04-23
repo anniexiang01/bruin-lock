@@ -9,6 +9,9 @@ function Timer({startTime, lockerTimeRef}) {
     const interval = setInterval(() => {
       const now = new Date().getTime();
       const timeDiff = startTime ? (startTime.getTime() + 10000) - now : 0;
+      // const minutes = Math.floor(timeDiff / (60 * 1000));
+      // const seconds = timeDiff % (60 * 1000);
+      // const formattedTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
       setTimeLeft(timeDiff > 0 ? timeDiff : 0);
       set(lockerTimeRef, formatTime(timeDiff) > 0 ? formatTime(timeDiff) : 0);
     }, 1000);
@@ -22,7 +25,7 @@ function Timer({startTime, lockerTimeRef}) {
 
   return (
     <div>
-      <h1>Time Left: {formatTime(timeLeft) > 0 ? formatTime(timeLeft) - 1 : 0}s</h1>
+      <text className='TimerText'>{formatTime(timeLeft) > 0 ? formatTime(timeLeft) - 1 : 0}s</text>
     </div>
   );
 }

@@ -5,7 +5,6 @@ import { getDatabase, set, ref, onValue, remove, update } from "firebase/databas
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import Locker from "./Locker";
-import Timer from "./Timer";
 
 import logo from './images/logo.png';
 
@@ -18,6 +17,8 @@ function App() {
       setIsAuth(false);
     });
   };
+
+  const admin = 'Annie Xiang';
 
   //set status
   const [status, setStatus] = useState(0);
@@ -97,7 +98,7 @@ function App() {
     let newStatus;
     let newUser;
     if (status === 0){ //closed
-      if (auth.currentUser.displayName === locker1User) {
+      if (auth.currentUser.displayName === locker1User || auth.currentUser.displayName === admin) {
         newStatus = 1;
         newUser = null;
         setStartTime(null);  // starts locker2 timer
@@ -122,7 +123,7 @@ function App() {
     let newStatus;
     let newUser;
     if (status2 === 0){ //closed
-      if (auth.currentUser.displayName === locker2User) {
+      if (auth.currentUser.displayName === locker2User || auth.currentUser.displayName === admin) {
         newStatus = 1;
         newUser = null;
         setStartTime2(null);  // starts locker2 timer
@@ -159,12 +160,8 @@ function App() {
             </div>
           
             <div style={{ display: 'flex' }}>
-              <Locker handleButtonClick={handleButtonClick} status={status} user={locker1User}/>
-              <Locker handleButtonClick={handleButtonClick2} status={status2} user={locker2User}/>
-            </div>
-            <div>
-              <Timer startTime={startTime} lockerTimeRef={locker1TimeRef}/>
-              <Timer startTime={startTime2} lockerTimeRef={locker2TimeRef}/>
+              <Locker handleButtonClick={handleButtonClick} status={status} user={locker1User} startTime0={startTime} lockerTimeRef={locker1TimeRef}/>
+              <Locker handleButtonClick={handleButtonClick2} status={status2} user={locker2User} startTime0={startTime2} lockerTimeRef={locker2TimeRef}/>
             </div>
           </div>
         </div>
