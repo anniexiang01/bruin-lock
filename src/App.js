@@ -60,34 +60,48 @@ function App() {
   }, [locker2UserRef]);
   
   const handleButtonClick = () => {
-    const newStatus = status === 0 ? 1 : 0;
+    let newStatus;
     let newUser;
-
-    if (status === 1) {
-      newUser = auth.currentUser.uid;
+    if (status === 0){ //closed
+      if (auth.currentUser.displayName === locker1User) {
+        newStatus = 1;
+        newUser = null;
+      }
+      else {
+        newStatus = 0;
+        newUser = locker1User;
+      }
     }
     else {
-      newUser = null;
+      newUser = auth.currentUser.displayName;
+      newStatus = 0;  
     }
 
     set(statusRef, newStatus);
     set(locker1UserRef, newUser);
   };
 
-  const handleButtonClick2 = () => {
-    const newStatus = status2 === 0 ? 1 : 0;
-    let newUser;
+  const handleButtonClick2 = () => { 
 
-    if (status2 === 1) {
-      newUser = auth.currentUser.uid;
+    let newStatus;
+    let newUser;
+    if (status2 === 0){ //closed
+      if (auth.currentUser.displayName === locker2User) {
+        newStatus = 1;
+        newUser = null;
+      }
+      else {
+        newStatus = 0;
+        newUser = locker2User;
+      }
     }
     else {
-      newUser = null;
+      newUser = auth.currentUser.displayName;
+      newStatus = 0;  
     }
 
     set(statusRef2, newStatus);
     set(locker2UserRef, newUser);
-    
   };
 
   return (
@@ -107,8 +121,8 @@ function App() {
             </div>
           
             <div style={{ display: 'flex' }}>
-              <Locker handleButtonClick={handleButtonClick} status={status} />
-              <Locker handleButtonClick={handleButtonClick2} status={status2} />
+              <Locker handleButtonClick={handleButtonClick} status={status} user={locker1User}/>
+              <Locker handleButtonClick={handleButtonClick2} status={status2} user={locker2User}/>
             </div>
           </div>
         </div>

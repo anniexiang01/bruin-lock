@@ -2,7 +2,7 @@ import React from 'react';
 import openLockerImage from './images/open-locker.PNG';
 import closedLockerImage from './images/closed-locker.PNG';
 
-function Locker({handleButtonClick, status}) {
+function Locker({handleButtonClick, status, user}) {
 
     let imageSrc;
     let lockerClassName;
@@ -23,12 +23,21 @@ function Locker({handleButtonClick, status}) {
       statusText = "Open";
     }
 
+    let ownerText;
+    if (user) {
+      ownerText = user + " currently occupies this locker";
+    }
+    else {
+      ownerText = "This locker is currently unoccupied";
+    }
+
     return(
     <div className="Locker">
         <div>
             <p>Current status is: {statusText}</p>
+            <p>{ownerText}</p>
             <button className="LockerButton" onClick={handleButtonClick}>
-            <img className={lockerClassName} src={imageSrc}/>
+              <img className={lockerClassName} src={imageSrc}/>
             </button>
         </div>
     </div>
