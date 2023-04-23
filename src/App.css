@@ -74,13 +74,13 @@ button:hover {
 .ClosedLockerImage {
   width: auto;
   height: 500px;
-  padding-top: 3px;
+  padding-top: 6px;
 }
 
 .OpenLockerImage {
   width: auto;
   height: 500px;
-  padding-left: 132px;
+  padding-left: 131px;
 }
 
 .WelcomeText {
@@ -99,4 +99,13 @@ button:hover {
 
 text {
   font-size: 1.5rem;
+}
+
+.Locker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem;
+  max-width: 400px;
 }

@@ -3,9 +3,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 To-Do's:
-associate locker with user
-ask to unlock if locker is owned by user
 countdown (associated per locker)
+ask to unlock if locker is owned by user
 associate one account as admin
 
 ## Available Scripts
