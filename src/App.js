@@ -1,11 +1,11 @@
 import "./App.css";
 import Login from "./Login";
 import { auth, db } from "./firebase";
-import { uid } from "uid";
 import { getDatabase, set, ref, onValue, remove, update } from "firebase/database";
 import { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import Locker from "./Locker";
+import Timer from "./Timer";
 
 import logo from './images/logo.png';
 
@@ -29,6 +29,12 @@ function App() {
   const [locker2User, setLocker2User] = useState(0);
   const locker1UserRef = ref(database, 'locker1User');
   const locker2UserRef = ref(database, 'locker2User');
+  const locker1TimeRef = ref(database, "locker1Time");
+  const locker2TimeRef = ref(database, "locker2Time");
+  const [locker1Time, setLocker1Time] = useState(0);
+  const [locker2Time, setLocker2Time] = useState(0);
+  const [startTime, setStartTime] = useState(new Date());
+  const [startTime2, setStartTime2] = useState(new Date());
 
   // Update the value of status in the database
   useEffect(() => {
@@ -58,7 +64,35 @@ function App() {
       setLocker2User(value);
     });
   }, [locker2UserRef]);
-  
+
+  useEffect(() => {
+    onValue(locker1TimeRef, (snapshot) => {
+      const value = snapshot.val();
+      setLocker1Time(value);
+    });
+  }, [locker1TimeRef]);
+
+  useEffect(() => {
+    onValue(locker2TimeRef, (snapshot) => {
+      const value = snapshot.val();
+      setLocker2Time(value);
+    });
+  }, [locker2TimeRef]);
+
+  useEffect(() => {
+    if (locker1Time === 1) {
+      set(statusRef, 1); // Set status to 1 (open) when locker1Time is greater than 0
+      set(locker1UserRef, null);
+    }
+  }, [locker1Time, statusRef, locker1UserRef]);
+
+  useEffect(() => {
+    if (locker2Time === 1) {
+      set(statusRef2, 1); // Set status to 1 (open) when locker2Time is greater than 0
+      set(locker2UserRef, null);
+    }
+  }, [locker2Time, statusRef2, locker2UserRef]);
+
   const handleButtonClick = () => {
     let newStatus;
     let newUser;
@@ -66,6 +100,7 @@ function App() {
       if (auth.currentUser.displayName === locker1User) {
         newStatus = 1;
         newUser = null;
+        setStartTime(null);  // starts locker2 timer
       }
       else {
         newStatus = 0;
@@ -75,6 +110,7 @@ function App() {
     else {
       newUser = auth.currentUser.displayName;
       newStatus = 0;  
+      setStartTime(new Date());   // starts locker1 timer
     }
 
     set(statusRef, newStatus);
@@ -89,6 +125,7 @@ function App() {
       if (auth.currentUser.displayName === locker2User) {
         newStatus = 1;
         newUser = null;
+        setStartTime2(null);  // starts locker2 timer
       }
       else {
         newStatus = 0;
@@ -98,6 +135,7 @@ function App() {
     else {
       newUser = auth.currentUser.displayName;
       newStatus = 0;  
+      setStartTime2(new Date());  // starts locker2 timer
     }
 
     set(statusRef2, newStatus);
@@ -124,6 +162,10 @@ function App() {
               <Locker handleButtonClick={handleButtonClick} status={status} user={locker1User}/>
               <Locker handleButtonClick={handleButtonClick2} status={status2} user={locker2User}/>
             </div>
+            <div>
+              <Timer startTime={startTime} lockerTimeRef={locker1TimeRef}/>
+              <Timer startTime={startTime2} lockerTimeRef={locker2TimeRef}/>
+            </div>
           </div>
         </div>
       ) : (
@@ -138,5 +180,3 @@ function App() {
   
 export default App;
   
-// npm install firebase
-// npm install sass
