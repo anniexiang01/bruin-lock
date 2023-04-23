@@ -13,20 +13,27 @@
 #include <addons/RTDBHelper.h>
 
 #include <ESP32Servo.h> 
-Servo myservo;  // create servo object to control a servo
-// twelve servo objects can be created on most boards
+Servo servo1;
+Servo servo2;
+// Published values for SG90 servos; adjust if needed
+int minUs = 1000;
+int maxUs = 2000;
 
-int pos = 0;    // variable to store the servo position
 
 #define LED1 27
 #define RED_PIN 26
 #define GREEN_PIN 25
 #define BLUE_PIN 33
-#define servoPin 32
+int servo1Pin = 32;
+int servo2Pin = 14;
+
+int pos = 0;      // position in degrees
+int pos2 = 0;      // position in degrees
+ESP32PWM pwm;
 
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "IEEE"
-#define WIFI_PASSWORD "Ilovesolder"
+#define WIFI_SSID "UCLA_WEB"
+#define WIFI_PASSWORD ""
 
 //For the following credentials, see examples/Authentications/SignInAsUser/EmailPassword/EmailPassword.ino
 
@@ -36,31 +43,24 @@ int pos = 0;    // variable to store the servo position
 /* 3. Define the RTDB URL */
 #define DATABASE_URL "https://bruinlocks-default-rtdb.firebaseio.com/"  //<databaseName>.firebaseio.com or <databaseName>.<region>.firebasedatabase.app
 
-
 //Define Firebase Data object
 FirebaseData fbdo;
 
 FirebaseAuth auth;
 FirebaseConfig config;
 
-
 String main = "";
 
-int a, b, x, y, status;
-
+int status, status2;
 
 void setup() {
-  myservo.attach(32);  // attaches the servo on pin 9 to the servo object
 	// Allow allocation of all timers
 	ESP32PWM::allocateTimer(0);
 	ESP32PWM::allocateTimer(1);
 	ESP32PWM::allocateTimer(2);
 	ESP32PWM::allocateTimer(3);
-	myservo.setPeriodHertz(50);    // standard 50 hz servo
-	myservo.attach(servoPin, 1000, 2000); // attaches the servo on pin 18 to the servo object
-	// using default min/max of 1000us and 2000us
-	// different servos may require different min/max settings
-	// for an accurate 0 to 180 sweep
+	servo1.setPeriodHertz(50);      // Standard 50hz servo
+	servo2.setPeriodHertz(50);      // Standard 50hz servo
 
   pinMode(LED1, OUTPUT);
   pinMode(RED_PIN, OUTPUT);
@@ -87,8 +87,6 @@ void setup() {
 
   config.database_url = DATABASE_URL;
 
-
-
   //////////////////////////////////////////////////////////////////////////////////////////////
   //Please make sure the device free Heap is not lower than 80 k for ESP32 and 10 k for ESP8266,
   //otherwise the SSL connection will fail.
@@ -104,52 +102,70 @@ void setup() {
 
 void loop() {
 
-  x = random(0, 9);
-  y = random(10, 19);
-
   if (Firebase.ready()) {
 
-    //Firebase.setInt(fbdo, main, 5);
-    Firebase.setInt(fbdo, "/test/a", x);
-    Firebase.setInt(fbdo, "/test/b", y);
-    delay(200);
+    servo1.attach(servo1Pin, minUs, maxUs);
+	  servo2.attach(servo2Pin, minUs, maxUs);
 
     Serial.printf("Get int status--  %s\n", Firebase.getInt(fbdo, "/status") ? String(fbdo.to<int>()).c_str() : fbdo.errorReason().c_str());
     status = fbdo.to<int>();
-    Serial.printf("Get int a--  %s\n", Firebase.getInt(fbdo, "/test/a") ? String(fbdo.to<int>()).c_str() : fbdo.errorReason().c_str());
-    a = fbdo.to<int>();
-    Serial.printf("Get int b--  %s\n", Firebase.getInt(fbdo, "/test/b") ? String(fbdo.to<int>()).c_str() : fbdo.errorReason().c_str());
-    b = fbdo.to<int>();
+    Serial.printf("Get int status2--  %s\n", Firebase.getInt(fbdo, "/status2") ? String(fbdo.to<int>()).c_str() : fbdo.errorReason().c_str());
+    status2 = fbdo.to<int>();
 
     if (status == 1) {
       digitalWrite(LED1, HIGH);
       digitalWrite(RED_PIN, HIGH);
-      digitalWrite(GREEN_PIN, HIGH);
-      digitalWrite(BLUE_PIN, LOW);
-      pos = 0;
-      myservo.write(pos);              // tell servo to go to position in variable 'pos'
+      // servo1.write(0);              // tell servo to go to position in variable 'pos'
+      for (; pos <= 180; pos += 1) { // sweep from 0 degrees to 180 degrees
+        // in steps of 1 degree
+        servo1.write(pos);
+        delay(5);             // waits 20ms for the servo to reach the position
+      }
     }
     else {
       digitalWrite(LED1, LOW);
       digitalWrite(RED_PIN, LOW);
-      digitalWrite(GREEN_PIN, HIGH);
-      digitalWrite(BLUE_PIN, HIGH);
-      pos = 180;
-      myservo.write(pos);              // tell servo to go to position in variable 'pos'
+      // servo1.write(180);              // tell servo to go to position in variable 'pos'
+      for (; pos >= 0; pos -= 1) { // sweep from 180 degrees to 0 degrees
+        servo1.write(pos);
+        delay(5);
+      }
     }
 
+    if (status2 == 1) {
+      digitalWrite(LED1, HIGH);
+      digitalWrite(BLUE_PIN, HIGH);
+      // servo2.write(0);             // tell servo to go to position in variable 'pos'
+      for (; pos2 <= 180; pos2 += 1) { // sweep from 0 degrees to 180 degrees
+        // in steps of 1 degree
+        servo2.write(pos2);
+        delay(5);             // waits 20ms for the servo to reach the position
+      }
+
+    }
+    else {
+      digitalWrite(LED1, LOW);
+      digitalWrite(BLUE_PIN, LOW);
+      // servo2.write(180);              // tell servo to go to position in variable 'pos'
+      for (; pos2 >= 0; pos2 -= 1) { // sweep from 180 degrees to 0 degrees
+        servo2.write(pos2);
+        delay(5);
+      }
+    }
+    
+
     Serial.println();
-    Serial.print("a:");
-    Serial.print(a);
-    Serial.print("  b: ");
-    Serial.print(b);
-    Serial.print("  status: ");
+    Serial.print("status:");
     Serial.print(status);
+    Serial.print("  status2: ");
+    Serial.print(status2);
 
     Serial.println();
     Serial.println("------------------");
     Serial.println();
 
+    servo1.detach();
+    servo2.detach();
 
     delay(2500);
   }
