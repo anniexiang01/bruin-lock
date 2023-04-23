@@ -159,7 +159,7 @@ function App() {
               <button onClick={signUserOut}>Sign Out</button>
             </div>
           
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex'}}>
               <Locker handleButtonClick={handleButtonClick} status={status} user={locker1User} startTime0={startTime} lockerTimeRef={locker1TimeRef}/>
               <Locker handleButtonClick={handleButtonClick2} status={status2} user={locker2User} startTime0={startTime2} lockerTimeRef={locker2TimeRef}/>
             </div>

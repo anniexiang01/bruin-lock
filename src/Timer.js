@@ -23,9 +23,11 @@ function Timer({startTime, lockerTimeRef}) {
     return seconds;
   };
 
+  const timerText = timeLeft > 0 ? 'normal' : 'clear';
+
   return (
     <div>
-      <text className='TimerText'>{formatTime(timeLeft) > 0 ? formatTime(timeLeft) - 1 : 0}s</text>
+      <text className={timerText}>Time left: {formatTime(timeLeft) > 0 ? formatTime(timeLeft) - 1 : 0}s</text>
     </div>
   );
 }

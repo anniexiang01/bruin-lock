@@ -47,15 +47,16 @@
   width: 130px;
   height: auto;
   padding: 15px;
+  margin-top: -25px;
 }
 
 button {
   border: none;
   background-color: white;
   padding: 20px;
-  padding-top: 15px;
-  padding-bottom: 15px;
-  border-radius: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 15px;
   cursor: pointer;
   color: #8587f0;
 }
@@ -72,12 +73,16 @@ button:hover {
 }
 
 .ClosedLockerImage {
+  margin-top: -7rem;
+  margin-bottom: -5rem;
   width: auto;
   height: 500px;
   padding-top: 6px;
 }
 
 .OpenLockerImage {
+  margin-top: -7rem;
+  margin-bottom: -5rem;
   width: auto;
   height: 500px;
   padding-left: 131px;
@@ -88,17 +93,23 @@ button:hover {
   font-weight: bold;
   padding: 20px;
   white-space: nowrap;
+  margin-top: -15px;
 }
 
 .Title {
   font-size: 4rem;
   font-weight: bold;
   white-space: nowrap;
-  padding-bottom: 20px;
+  padding-bottom: 50px;
+  margin-bottom: 50px;
 }
 
 text {
   font-size: 1.5rem;
+}
+
+p {
+  margin-top: -8px;
 }
 
 .Locker {
@@ -110,8 +121,28 @@ text {
   max-width: 400px;
 }
 
-.TimerText {
-  font-size: 2.5rem;
+.normal {
+  font-size: 2rem;
   font-weight: bold;
   white-space: nowrap;
+}
+
+.clear {
+  font-size: 2rem;
+  font-weight: bold;
+  white-space: nowrap;
+  color: transparent;
+}
+
+.login-with-google-btn {
+  border: none;
+  background-color: white;
+  padding: 20px;
+  padding-top: 10px;
+  margin-top: 20px;
+  margin-bottom: -20px;
+  padding-bottom: 10px;
+  border-radius: 15px;
+  cursor: pointer;
+  color: #8587f0;
 }
